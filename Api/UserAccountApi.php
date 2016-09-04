@@ -27,7 +27,7 @@ class UserAccountApi extends WorksnapsApi
      *
      * @return array
      */
-    public function getUsers( $worksnapsApiKey )
+    public function getUsers($worksnapsApiKey)
     {
         // build api endpoint
         $url = $this->buildEndpoint('api/users.xml');

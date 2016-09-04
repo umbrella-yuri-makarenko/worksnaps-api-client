@@ -17,6 +17,7 @@ abstract class WorksnapsApi
 
     /**
      * build Worksnaps endpoint API url
+     *
      * @param $uri
      * @param array $parameters
      *

@@ -13,7 +13,7 @@ class ProjectApi extends WorksnapsApi
      *
      * @return array
      */
-    public function getProjects( $worksnapsApiKey )
+    public function getProjects($worksnapsApiKey)
     {
         // build api endpoint
         $url = $this->buildEndpoint('api/projects.xml');
