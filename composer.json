@@ -1,0 +1,14 @@
+{
+    "name": "umbrella/worksnaps-bundle",
+    "description": "Bundle provide ability work with Worksnaps API.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Yuri Makarenko",
+            "email": "yuri.makarenko@umbrella-web.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}
