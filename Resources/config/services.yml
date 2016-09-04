@@ -2,4 +2,5 @@ services:
   # General Worksnaps client service
   umbrella.worksnaps:
     class:  Umbrella\WorksnapsBundle\Service\WorksnapsService
-    arguments: ['@service_container']
+    calls:
+      - [ setContainer, [ "@service_container" ] ]

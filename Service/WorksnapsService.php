@@ -2,7 +2,6 @@
 // src/Umbrella/Worksnaps/Service/Worksnaps.php
 namespace Umbrella\WorksnapsBundle\Service;
 
-use Symfony\Component\DependencyInjection\Container;
 use Umbrella\WorksnapsBundle\Api\ProjectApi;
 use Umbrella\WorksnapsBundle\Api\TaskApi;
 use Umbrella\WorksnapsBundle\Api\UserAccountApi;
@@ -10,6 +9,7 @@ use Umbrella\WorksnapsBundle\Api\ReportApi;
 use Umbrella\WorksnapsBundle\Api\TimeEntryApi;
 use Umbrella\WorksnapsBundle\Api\TaskAssignmentApi;
 use Umbrella\WorksnapsBundle\Api\UserAssignmentApi;
+use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
 /**
  * Class WorksnapsService
@@ -17,10 +17,7 @@ use Umbrella\WorksnapsBundle\Api\UserAssignmentApi;
  */
 class WorksnapsService
 {
-    /**
-     * @var mixed
-     */
-    private $worksnapsApiKey;
+    use ContainerAwareTrait;
 
     /**
      * @var ProjectApi
@@ -59,21 +56,16 @@ class WorksnapsService
 
     /**
      * WorksnapsService constructor.
-     *
-     * @param Container $container
      */
-    public function __construct(Container $container)
+    public function __construct()
     {
-
-        $this->worksnapsApiKey = $container->getParameter('worksnaps.api_key');
-
-        $this->projectApi        = new ProjectApi($this->worksnapsApiKey);
-        $this->taskApi           = new TaskApi($this->worksnapsApiKey);
-        $this->userAccountApi    = new UserAccountApi($this->worksnapsApiKey);
-        $this->reportApi         = new ReportApi($this->worksnapsApiKey);
-        $this->timeEntryApi      = new TimeEntryApi($this->worksnapsApiKey);
-        $this->taskAssignmentApi = new TaskAssignmentApi($this->worksnapsApiKey);
-        $this->userAssignmentApi = new UserAssignmentApi($this->worksnapsApiKey);
+        $this->projectApi        = new ProjectApi();
+        $this->taskApi           = new TaskApi();
+        $this->userAccountApi    = new UserAccountApi();
+        $this->reportApi         = new ReportApi();
+        $this->timeEntryApi      = new TimeEntryApi();
+        $this->taskAssignmentApi = new TaskAssignmentApi();
+        $this->userAssignmentApi = new UserAssignmentApi();
     }
 
     /**
@@ -81,7 +73,8 @@ class WorksnapsService
      */
     public function getProjects()
     {
-        return $this->projectApi->getProjects();
+        $worksnapsApiKey = $this->container->getParameter('worksnaps.api_key');
+        return $this->projectApi->getProjects( $worksnapsApiKey );
     }
 
     /**
@@ -91,7 +84,8 @@ class WorksnapsService
      */
     public function getProject($projectId)
     {
-        return $this->projectApi->getProject($projectId);
+        $worksnapsApiKey = $this->container->getParameter('worksnaps.api_key');
+        return $this->projectApi->getProject($worksnapsApiKey, $projectId);
     }
 
     /**
@@ -101,7 +95,8 @@ class WorksnapsService
      */
     public function getTasks($projectId)
     {
-        return $this->taskApi->getTasks($projectId);
+        $worksnapsApiKey = $this->container->getParameter('worksnaps.api_key');
+        return $this->taskApi->getTasks($worksnapsApiKey, $projectId);
     }
 
     /**
@@ -113,7 +108,8 @@ class WorksnapsService
      */
     public function getTask($projectId, $taskId, $includeTaskAssignment = false)
     {
-        return $this->taskApi->getTask($projectId, $taskId, $includeTaskAssignment);
+        $worksnapsApiKey = $this->container->getParameter('worksnaps.api_key');
+        return $this->taskApi->getTask($worksnapsApiKey, $projectId, $taskId, $includeTaskAssignment);
     }
 
     /**
@@ -121,7 +117,8 @@ class WorksnapsService
      */
     public function getMyUser()
     {
-        return $this->userAccountApi->getMyUser();
+        $worksnapsApiKey = $this->container->getParameter('worksnaps.api_key');
+        return $this->userAccountApi->getMyUser($worksnapsApiKey);
     }
 
     /**
@@ -129,7 +126,8 @@ class WorksnapsService
      */
     public function getUsers()
     {
-        return $this->userAccountApi->getUsers();
+        $worksnapsApiKey = $this->container->getParameter('worksnaps.api_key');
+        return $this->userAccountApi->getUsers($worksnapsApiKey);
     }
 
     /**
@@ -139,7 +137,8 @@ class WorksnapsService
      */
     public function getUser($userId)
     {
-        return $this->userAccountApi->getUser($userId);
+        $worksnapsApiKey = $this->container->getParameter('worksnaps.api_key');
+        return $this->userAccountApi->getUser($worksnapsApiKey, $userId);
     }
 
     /**
@@ -152,7 +151,8 @@ class WorksnapsService
      */
     public function getReport($projectId, $fromTimestamp, $toTimestamp, Array $users = [])
     {
-        return $this->reportApi->getReport($projectId, $fromTimestamp, $toTimestamp, $users);
+        $worksnapsApiKey = $this->container->getParameter('worksnaps.api_key');
+        return $this->reportApi->getReport($worksnapsApiKey, $projectId, $fromTimestamp, $toTimestamp, $users);
     }
 
     /**
@@ -165,7 +165,8 @@ class WorksnapsService
      */
     public function getTimeEntries($projectId, Array $users, $fromTimestamp, $toTimestamp)
     {
-        return $this->timeEntryApi->getTimeEntries($projectId, $users, $fromTimestamp, $toTimestamp);
+        $worksnapsApiKey = $this->container->getParameter('worksnaps.api_key');
+        return $this->timeEntryApi->getTimeEntries($worksnapsApiKey, $projectId, $users, $fromTimestamp, $toTimestamp);
     }
 
     /**
@@ -178,7 +179,8 @@ class WorksnapsService
      */
     public function getTimeEntriesForUser($projectId, $userId, $fromTimestamp, $toTimestamp)
     {
-        return $this->timeEntryApi->getTimeEntriesForUser($projectId, $userId, $fromTimestamp, $toTimestamp);
+        $worksnapsApiKey = $this->container->getParameter('worksnaps.api_key');
+        return $this->timeEntryApi->getTimeEntriesForUser($worksnapsApiKey, $projectId, $userId, $fromTimestamp, $toTimestamp);
     }
 
     /**
@@ -189,7 +191,8 @@ class WorksnapsService
      */
     public function getScreenshot($projectId, $timeEntryId)
     {
-        return $this->timeEntryApi->getScreenshot($projectId, $timeEntryId);
+        $worksnapsApiKey = $this->container->getParameter('worksnaps.api_key');
+        return $this->timeEntryApi->getScreenshot($worksnapsApiKey, $projectId, $timeEntryId);
     }
 
     /**
@@ -200,7 +203,8 @@ class WorksnapsService
      */
     public function getTimeEntry($projectId, $timeEntryId)
     {
-        return $this->timeEntryApi->getTimeEntry($projectId, $timeEntryId);
+        $worksnapsApiKey = $this->container->getParameter('worksnaps.api_key');
+        return $this->timeEntryApi->getTimeEntry($worksnapsApiKey, $projectId, $timeEntryId);
     }
 
     /**
@@ -210,7 +214,8 @@ class WorksnapsService
      */
     public function getTasksFromProject($projectId)
     {
-        return $this->taskAssignmentApi->getTasksFromProject($projectId);
+        $worksnapsApiKey = $this->container->getParameter('worksnaps.api_key');
+        return $this->taskAssignmentApi->getTasksFromProject($worksnapsApiKey, $projectId);
     }
 
     /**
@@ -221,7 +226,8 @@ class WorksnapsService
      */
     public function getTaskFromProject($projectId, $taskAssignmentId)
     {
-        return $this->taskAssignmentApi->getTaskFromProject($projectId, $taskAssignmentId);
+        $worksnapsApiKey = $this->container->getParameter('worksnaps.api_key');
+        return $this->taskAssignmentApi->getTaskFromProject($worksnapsApiKey, $projectId, $taskAssignmentId);
     }
 
     /**
@@ -231,7 +237,8 @@ class WorksnapsService
      */
     public function getUsersFromProject($projectId)
     {
-        return $this->userAssignmentApi->getUsersFromProject($projectId);
+        $worksnapsApiKey = $this->container->getParameter('worksnaps.api_key');
+        return $this->userAssignmentApi->getUsersFromProject($worksnapsApiKey, $projectId);
     }
 
     /**
@@ -242,6 +249,7 @@ class WorksnapsService
      */
     public function getUserFromProject($projectId, $userAssignmentId)
     {
-        return $this->userAssignmentApi->getUserFromProject($projectId, $userAssignmentId);
+        $worksnapsApiKey = $this->container->getParameter('worksnaps.api_key');
+        return $this->userAssignmentApi->getUserFromProject($worksnapsApiKey, $projectId, $userAssignmentId);
     }
 }

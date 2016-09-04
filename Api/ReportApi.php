@@ -9,6 +9,7 @@ namespace Umbrella\WorksnapsBundle\Api;
 class ReportApi extends WorksnapsApi
 {
     /**
+     * @param $worksnapsApiKey
      * @param $projectId
      * @param $fromTimestamp
      * @param $toTimestamp
@@ -16,7 +17,7 @@ class ReportApi extends WorksnapsApi
      *
      * @return array
      */
-    public function getReport($projectId, $fromTimestamp, $toTimestamp, Array $users = [])
+    public function getReport($worksnapsApiKey, $projectId, $fromTimestamp, $toTimestamp, Array $users = [])
     {
         // prepare parameters
         $projectId     = (int)$projectId;
@@ -38,7 +39,7 @@ class ReportApi extends WorksnapsApi
         );
 
         // request Worksnaps API
-        $data = $this->request($url);
+        $data = $this->request($worksnapsApiKey, $url);
 
         // return data
         return (false === empty($data['time_entry'])) ? $data['time_entry'] : [];
