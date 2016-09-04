@@ -9,6 +9,7 @@ namespace Umbrella\WorksnapsBundle\Api;
 class TimeEntryApi extends WorksnapsApi
 {
     /**
+     * @param $worksnapsApiKey
      * @param $projectId
      * @param array $users
      * @param $fromTimestamp
@@ -16,7 +17,7 @@ class TimeEntryApi extends WorksnapsApi
      *
      * @return mixed
      */
-    public function getTimeEntries($projectId, Array $users, $fromTimestamp, $toTimestamp)
+    public function getTimeEntries($worksnapsApiKey, $projectId, Array $users, $fromTimestamp, $toTimestamp)
     {
         // prepare parameters
         $projectId     = (int)$projectId;
@@ -37,10 +38,11 @@ class TimeEntryApi extends WorksnapsApi
         );
 
         // request Worksnaps API and return data
-        return $this->request($url);
+        return $this->request($worksnapsApiKey, $url);
     }
 
     /**
+     * @param $worksnapsApiKey
      * @param $projectId
      * @param $userId
      * @param $fromTimestamp
@@ -48,7 +50,7 @@ class TimeEntryApi extends WorksnapsApi
      *
      * @return mixed
      */
-    public function getTimeEntriesForUser($projectId, $userId, $fromTimestamp, $toTimestamp)
+    public function getTimeEntriesForUser($worksnapsApiKey, $projectId, $userId, $fromTimestamp, $toTimestamp)
     {
         // prepare parameters
         $projectId     = (int)$projectId;
@@ -66,16 +68,17 @@ class TimeEntryApi extends WorksnapsApi
         );
 
         // request Worksnaps API and return data
-        return $this->request($url);
+        return $this->request($worksnapsApiKey, $url);
     }
 
     /**
+     * @param $worksnapsApiKey
      * @param $projectId
      * @param $timeEntryId
      *
      * @return mixed
      */
-    public function getScreenshot($projectId, $timeEntryId)
+    public function getScreenshot($worksnapsApiKey, $projectId, $timeEntryId)
     {
         // prepare parameters
         $projectId   = (int)$projectId;
@@ -90,16 +93,17 @@ class TimeEntryApi extends WorksnapsApi
         );
 
         // request Worksnaps API and return data
-        return $this->request($url);
+        return $this->request($worksnapsApiKey, $url);
     }
 
     /**
+     * @param $worksnapsApiKey
      * @param $projectId
      * @param $timeEntryId
      *
      * @return mixed
      */
-    public function getTimeEntry($projectId, $timeEntryId)
+    public function getTimeEntry($worksnapsApiKey, $projectId, $timeEntryId)
     {
         // prepare parameters
         $projectId   = (int)$projectId;
@@ -109,6 +113,6 @@ class TimeEntryApi extends WorksnapsApi
         $url = $this->buildEndpoint("api/projects/$projectId/time_entries/$timeEntryId.xml");
 
         // request Worksnaps API and return data
-        return $this->request($url);
+        return $this->request($worksnapsApiKey, $url);
     }
 }

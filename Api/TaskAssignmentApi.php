@@ -9,11 +9,12 @@ namespace Umbrella\WorksnapsBundle\Api;
 class TaskAssignmentApi extends WorksnapsApi
 {
     /**
+     * @param $worksnapsApiKey
      * @param $projectId
      *
      * @return array
      */
-    public function getTasksFromProject($projectId)
+    public function getTasksFromProject($worksnapsApiKey, $projectId)
     {
         // prepare parameters
         $projectId = (int)$projectId;
@@ -22,19 +23,20 @@ class TaskAssignmentApi extends WorksnapsApi
         $url = $this->buildEndpoint("api/projects/$projectId/task_assignments.xml");
 
         // request Worksnaps API
-        $data = $this->request($url);
+        $data = $this->request($worksnapsApiKey, $url);
 
         // return data
         return (false === empty($data['task_assignment'])) ? $data['task_assignment'] : [];
     }
 
     /**
+     * @param $worksnapsApiKey
      * @param $projectId
      * @param $taskAssignmentId
      *
      * @return mixed
      */
-    public function getTaskFromProject($projectId, $taskAssignmentId)
+    public function getTaskFromProject($worksnapsApiKey, $projectId, $taskAssignmentId)
     {
         // prepare parameters
         $projectId        = (int)$projectId;
@@ -44,6 +46,6 @@ class TaskAssignmentApi extends WorksnapsApi
         $url = $this->buildEndpoint("api/projects/$projectId/task_assignments/$taskAssignmentId.xml");
 
         // request Worksnaps API and return data
-        return $this->request($url);
+        return $this->request($worksnapsApiKey, $url);
     }
 }

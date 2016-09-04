@@ -16,24 +16,7 @@ abstract class WorksnapsApi
     const WORKSNAPS_DOMAIN = 'https://api.worksnaps.com:443/';
 
     /**
-     * @var string Worksnaps API key
-     */
-    protected $worksnapsApiKey;
-
-    /**
-     * WorksnapsApi constructor.
-     *
-     * @param string $worksnapsApiKey
-     */
-    public function __construct($worksnapsApiKey)
-    {
-        // setup Worksnaps API key
-        $this->worksnapsApiKey = $worksnapsApiKey;
-    }
-
-    /**
      * build Worksnaps endpoint API url
-     *
      * @param $uri
      * @param array $parameters
      *
@@ -64,12 +47,13 @@ abstract class WorksnapsApi
     }
 
     /**
-     * @param string $url
+     * @param $worksnapsApiKey
+     * @param $url
      *
-     * @return mixed
+     * @return array
      * @throws WorksnapsException
      */
-    protected function request($url)
+    protected function request($worksnapsApiKey, $url)
     {
         if (true === empty($url)) {
             throw new WorksnapsException('url parameter is required for request method');
@@ -77,7 +61,7 @@ abstract class WorksnapsApi
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_USERPWD, $this->worksnapsApiKey);
+        curl_setopt($ch, CURLOPT_USERPWD, $worksnapsApiKey);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         $result = curl_exec($ch);
         curl_close($ch);

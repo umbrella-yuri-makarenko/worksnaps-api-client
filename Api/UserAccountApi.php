@@ -9,38 +9,43 @@ namespace Umbrella\WorksnapsBundle\Api;
 class UserAccountApi extends WorksnapsApi
 {
     /**
+     * @param $worksnapsApiKey
+     *
      * @return mixed
      */
-    public function getMyUser()
+    public function getMyUser($worksnapsApiKey)
     {
         // build api endpoint
         $url = $this->buildEndpoint('api/me.xml');
 
         // request Worksnaps API and return data
-        return $this->request($url);
+        return $this->request($worksnapsApiKey, $url);
     }
 
     /**
+     * @param $worksnapsApiKey
+     *
      * @return array
      */
-    public function getUsers()
+    public function getUsers( $worksnapsApiKey )
     {
         // build api endpoint
         $url = $this->buildEndpoint('api/users.xml');
 
         // request Worksnaps API
-        $data = $this->request($url);
+        $data = $this->request($worksnapsApiKey, $url);
 
         // return data
         return (false === empty($data['user'])) ? $data['user'] : [];
     }
 
     /**
+     * @param $worksnapsApiKey
      * @param $userId
      *
      * @return mixed
      */
-    public function getUser($userId)
+    public function getUser($worksnapsApiKey, $userId)
     {
         // prepare parameters
         $userId = (int)$userId;
@@ -49,6 +54,6 @@ class UserAccountApi extends WorksnapsApi
         $url = $this->buildEndpoint("api/users/$userId.xml");
 
         // return data
-        return $this->request($url);
+        return $this->request($worksnapsApiKey, $url);
     }
 }
