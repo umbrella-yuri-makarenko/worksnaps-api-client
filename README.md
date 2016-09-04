@@ -36,7 +36,6 @@ worksnaps:
 
 ## Working in code
 
-======
 ### Project API
 #### Get all projects
 ``` $allProjects = $this->get('umbrella.worksnaps')->getProjects();```
